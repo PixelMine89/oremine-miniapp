@@ -42,6 +42,10 @@
     <div><span class="label">Энергия:</span> <span id="energy"></span></div>
     <div><span class="label">Глубина:</span> <span id="depth"></span></div>
     <div><span class="label">Уголь:</span> <span id="coal"></span></div>
+    <div style="margin-top:12px">
+      <button id="mineBtn">⛏️ Копать</button>
+    </div>
+    <div id="reward" style="margin-top:8px; opacity:0.8"></div>
   </div>
 
 <script>
@@ -49,6 +53,7 @@
   tg.ready();
 
   const API_URL = "https://oremine-worker.orange123893-383.workers.dev";
+  let currentUserId = null;
 
   async function loadPlayer() {
     if (!tg.initDataUnsafe?.user?.id) {
@@ -57,13 +62,13 @@
       return;
     }
 
-    const userId = tg.initDataUnsafe.user.id;
+    currentUserId = tg.initDataUnsafe.user.id;
 
     document.getElementById("status").innerText = "Загрузка игрока...";
 
     try {
       const response = await fetch(
-        `${API_URL}/getUser?user_id=${userId}`
+        `${API_URL}/getUser?user_id=${currentUserId}`
       );
 
       const player = await response.json();
@@ -88,6 +93,34 @@
   }
 
   loadPlayer();
+
+  document.getElementById("mineBtn").onclick = mine;
+
+async function mine() {
+  try {
+    const response = await fetch(
+      `${API_URL}/mine?user_id=${currentUserId}`
+    );
+
+    const data = await response.json();
+
+    if (data.error === "NO_ENERGY") {
+      alert("Нет энергии");
+      return;
+    }
+
+    renderPlayer(data.user);
+
+    document.getElementById("reward").innerText =
+      data.reward
+        ? `Найдено: ${data.reward}`
+        : "Ничего не найдено";
+
+  } catch (e) {
+    alert("Ошибка при копании");
+  }
+}
+  
 </script>
 
 </body>
