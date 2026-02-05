@@ -213,6 +213,7 @@ button:disabled {
   <div class="box">
     <div>⏳ Осталось: <span id="hunt-timer">--:--</span></div>
     <div>💰 Заработано: <span id="hunt-earned">0</span> $DigCoin</div>
+    <div>⚡ Энергия: <span id="hunt-energy"></span></div>
   </div>
 
   <div class="box">
@@ -618,6 +619,8 @@ function renderPickaxes(player) {
 
 function renderHunt(hunt) {
   document.getElementById("hunt-earned").innerText = hunt.earned;
+  document.getElementById("hunt-energy").innerText =
+  `${hunt.energy} / ${hunt.maxEnergy}`;
 
   renderHuntTimer(hunt.endsAt);
   renderHuntBlocks(hunt.blocks);
