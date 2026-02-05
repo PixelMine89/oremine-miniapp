@@ -251,7 +251,7 @@ button:disabled {
     возможен при достижении баланса в 50 звёзд.</p>
   </div>
       <div class="box">
-  <div>$DigCoin: <span id="ingot-copper2"></span></div>
+  <div>$DigCoin: <span id="dig-coin"></span></div>
       </div>
 </div>
 
@@ -427,11 +427,8 @@ function renderPlayer(player) {
   document.getElementById("ingot-gold").innerText = player.ingots.gold;
   document.getElementById("ingot-diamond").innerText = player.ingots.diamond;
 
-  // Слитки (вывод)
-  document.getElementById("ingot-copper2").innerText = player.ingots.copper;
-  document.getElementById("ingot-iron2").innerText = player.ingots.iron;
-  document.getElementById("ingot-gold2").innerText = player.ingots.gold;
-  document.getElementById("ingot-diamond2").innerText = player.ingots.diamond;
+  // DigCoin (вывод)
+  
   
   // Блок
   document.getElementById("blockType").innerText =
