@@ -294,6 +294,25 @@ button:disabled {
 
 </div>
 
+<div id="huntResultModal" style="
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.7);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+">
+  <div class="box" style="max-width:300px; text-align:center;">
+    <h3>🎯 Охота завершена</h3>
+    <div style="margin:12px 0;">
+      Заработано:<br>
+      <b><span id="huntResultEarned">0</span> $DigCoin</b>
+    </div>
+    <button onclick="closeHuntResult()">Закрыть</button>
+  </div>
+</div>
+
 <!-- ===== NAV ===== -->
 <div class="nav">
   <div class="nav-btn active" onclick="showTab('mine')"><div>⛏️</div>Шахта</div>
@@ -503,8 +522,10 @@ if (huntBtn) {
 }
 
   if (!data.active) {
-    showTab("mine");
-    return;
+  if (data.finished) {
+    showHuntResult(data.earned || 0);
+  }
+  return;
   }
 
   if (!data.blocks || !Array.isArray(data.blocks)) {
@@ -549,6 +570,17 @@ document.getElementById("hunt-mine-btn").onclick = async () => {
   loadHuntState();
 };
 
+function showHuntResult(earned) {
+  document.getElementById("huntResultEarned").innerText = earned;
+  document.getElementById("huntResultModal").style.display = "flex";
+}
+
+function closeHuntResult() {
+  document.getElementById("huntResultModal").style.display = "none";
+  showTab("mine");
+  loadPlayer();
+}
+
 /* ================== RENDER ================== */
 function renderPlayer(player) {
   document.getElementById("status").style.display = "none";
@@ -572,7 +604,8 @@ function renderPlayer(player) {
   document.getElementById("ingot-diamond").innerText = player.ingots.diamond;
 
   // DigCoin (вывод)
-  
+  document.getElementById("dig-coin").innerText =
+  player.digCoin;
   
   // Блок
   document.getElementById("blockType").innerText =
@@ -668,7 +701,6 @@ function renderHuntTimer(endsAt) {
       clearInterval(huntTimerInterval);
       clearInterval(huntStateInterval);
       huntStateInterval = null;
-      alert("Охота окончена!");
       showTab("mine");
       loadPlayer();
       return;
