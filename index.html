@@ -325,7 +325,7 @@ function showTab(tab) {
   huntStateInterval = null;
   }
   
-  ["mine", "furnace", "equip", "withdraw"].forEach(t => {
+  ["mine", "furnace", "equip", "withdraw", "hunt"].forEach(t => {
     document.getElementById(`tab-${t}`).style.display =
       t === tab ? "block" : "none";
   });
@@ -342,7 +342,8 @@ function showTab(tab) {
     mine: "Шахта",
     furnace: "Печь",
     equip: "Экипировка",
-    withdraw: "Вывод"
+    withdraw: "Вывод",
+    hunt: "Охота за $DigCoin"
   };
 
   document.getElementById("tabTitle").innerText = titles[tab];
