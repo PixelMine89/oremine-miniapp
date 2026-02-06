@@ -403,10 +403,10 @@ async function loadPlayer() {
   }
   
   currentUserId = tg.initDataUnsafe.user.id;
-
+  alert("1");
   const res = await fetch(`${API_URL}/getUser?user_id=${currentUserId}`);
   const player = await res.json();
-  
+  alert("2");
   renderPlayer(player);
   checkHuntOnLoad();
 
