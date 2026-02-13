@@ -489,6 +489,9 @@ document.getElementById("mineBtn").onclick = async () => {
 
   renderPlayer(data.user);
 
+  localUser = data.user;
+  updateEnergyUI();
+
   const rewardEl = document.getElementById("reward");
   rewardEl.innerText = "";
 
@@ -610,6 +613,9 @@ if (!data.blocks || !Array.isArray(data.blocks)) {
 }
 
 renderHunt(data);
+
+localUser = data.user;
+updateEnergyUI();
 
   if (!huntStateInterval) {
     huntStateInterval = setInterval(loadHuntState, 1000);
