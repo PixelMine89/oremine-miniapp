@@ -353,6 +353,9 @@ let huntStateInterval = null;
 let currentHuntActive = false;
 let huntMineInProgress = false;
 
+let energyInterval = null;
+let localUser = null;
+
 const BLOCK_NAMES = {
   stone: "Камень",
   coal: "Угольный блок",
@@ -429,8 +432,49 @@ async function loadPlayer() {
   renderPlayer(player);
   checkHuntOnLoad();
 
+  localUser = data;
+  startEnergyRegen();
+
   // 🔥 ВАЖНО: сразу открываем шахту
   showTab("mine");
+}
+
+function startEnergyRegen() {
+  if (energyInterval) {
+    clearInterval(energyInterval);
+  }
+
+  energyInterval = setInterval(() => {
+    if (!localUser) return;
+
+    const now = Date.now();
+    const secondsPassed = Math.floor(
+      (now - localUser.lastEnergyUpdate) / 1000
+    );
+
+    if (secondsPassed <= 0) return;
+
+    const energyToRestore = secondsPassed * localUser.regen;
+
+    if (energyToRestore > 0) {
+      localUser.energy = Math.min(
+        localUser.maxEnergy,
+        localUser.energy + energyToRestore
+      );
+
+      localUser.lastEnergyUpdate = now;
+
+      updateEnergyUI();
+    }
+  }, 1000);
+}
+
+function updateEnergyUI() {
+  document.getElementById("energy").innerText =
+    `${localUser.energy} / ${localUser.maxEnergy}`;
+
+  document.getElementById("hunt-energy").innerText =
+    `${localUser.energy} / ${localUser.maxEnergy}`;
 }
 
 /* ================== MINE ================== */
