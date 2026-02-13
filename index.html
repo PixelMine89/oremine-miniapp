@@ -353,6 +353,8 @@ let huntStateInterval = null;
 let currentHuntActive = false;
 let huntMineInProgress = false;
 
+let playerInterval = null;
+
 const BLOCK_NAMES = {
   stone: "Камень",
   coal: "Угольный блок",
@@ -429,8 +431,16 @@ async function loadPlayer() {
   renderPlayer(player);
   checkHuntOnLoad();
 
+  playerInterval = setInterval(loadPlayerDataOnly, 1000);
+
   // 🔥 ВАЖНО: сразу открываем шахту
   showTab("mine");
+}
+
+async function loadPlayerDataOnly() {
+  const res = await fetch(`${API_URL}/getUser?user_id=${currentUserId}`);
+  const player = await res.json();
+  renderPlayer(player);
 }
 
 /* ================== MINE ================== */
