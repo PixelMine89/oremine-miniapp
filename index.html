@@ -740,14 +740,24 @@ function renderCraft(player) {
     const div = document.createElement("div");
     div.className = "item";
     div.innerHTML = `
-      <b>${c.name}</b><br>
-      Нужно: ${c.cost}<br>
-      Шанс: ${Math.floor(c.chance * 100)}%<br>
-      У вас: ${have}<br>
-      <button ${have < c.cost ? "disabled" : ""} onclick="craftPickaxe('${c.type}')">
-        Крафт
-      </button>
-    `;
+  <b>${c.name}</b><br>
+  Нужно: ${c.cost}<br>
+  Шанс: ${Math.floor(c.chance * 100)}%<br>
+  У вас: ${have}<br>
+
+  <button ${have < c.cost ? "disabled" : ""} onclick="craftPickaxe('${c.type}')">
+    Крафт
+  </button>
+
+  <button onclick="buyPickaxeTON('${c.type}')">
+    Купить за ${{
+      copper: "0.5",
+      iron: "2",
+      gold: "7",
+      diamond: "20"
+    }[c.type]} TON
+  </button>
+`;
     box.appendChild(div);
   });
 }
@@ -848,6 +858,53 @@ function renderHuntBlocks(blocks) {
     }
   });
 }
+
+async function buyPickaxeTON(type) {
+
+  const pricesNano = {
+    copper: "500000000",
+    iron: "2000000000",
+    gold: "7000000000",
+    diamond: "20000000000"
+  };
+
+  const payload = {
+    user_id: currentUserId,
+    type
+  };
+
+  const transaction = {
+    validUntil: Math.floor(Date.now() / 1000) + 600,
+    messages: [
+      {
+        address: "ТВОЙ_TON_АДРЕС",
+        amount: pricesNano[type],
+        payload: btoa(JSON.stringify(payload))
+      }
+    ]
+  };
+
+  try {
+    const result = await tonConnectUI.sendTransaction(transaction);
+
+    await fetch(`${API_URL}/ton/verify`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        txHash: result.transactionHash,
+        user_id: currentUserId,
+        type
+      })
+    });
+
+    alert("Покупка обработана!");
+    loadPlayer();
+
+  } catch (e) {
+    alert("Платеж отменён");
+  }
+}
+
 loadPlayer();
 
 </script>
