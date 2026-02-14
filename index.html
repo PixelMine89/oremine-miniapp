@@ -886,7 +886,7 @@ async function buyPickaxeTON(type) {
 
   try {
     const result = await tonConnectUI.sendTransaction(transaction);
-
+    alert("Отправлено");
     await fetch(`${API_URL}/ton/verify`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
