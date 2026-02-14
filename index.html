@@ -901,7 +901,7 @@ async function buyPickaxeTON(type) {
     loadPlayer();
 
   } catch (e) {
-    alert("Платеж отменён");
+  alert("Ошибка: " + JSON.stringify(e));
   }
 }
 
