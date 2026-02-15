@@ -28,7 +28,7 @@ body {
   background: var(--bg);
   color: white;
   font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
-  padding-bottom: 90px;
+  padding-bottom: 130px;
 }
 
 /* ===== HEADER ===== */
@@ -147,31 +147,57 @@ button:disabled {
   margin-bottom: 8px;
 }
 
-/* ===== BOTTOM NAV ===== */
-.nav {
+/* ===== NEW BOTTOM NAV ===== */
+
+.nav-wrapper {
   position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  background: #0c0f1a;
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  border-top: 1px solid #222;
+  bottom: 18px;
+  left: 16px;
+  right: 16px;
+  z-index: 1000;
+}
+
+.nav {
+  background: linear-gradient(180deg, #1a1f33, #151a28);
+  border-radius: 22px;
+  padding: 10px 6px;
+  display: flex;
+  justify-content: space-between;
+  box-shadow: 0 15px 40px rgba(0,0,0,0.6);
+  border: 1px solid rgba(255,255,255,0.04);
 }
 
 .nav-btn {
-  padding: 10px 0;
+  flex: 1;
   text-align: center;
-  font-size: 12px;
-  color: var(--muted);
+  font-size: 11px;
+  color: #7f869c;
+  cursor: pointer;
+  transition: 0.2s ease;
+  padding: 6px 0;
+  border-radius: 14px;
+}
+
+.nav-btn img {
+  width: 22px;
+  height: 22px;
+  margin-bottom: 4px;
+  opacity: 0.6;
+  transition: 0.2s ease;
 }
 
 .nav-btn.active {
+  background: rgba(245,199,122,0.08);
   color: var(--accent);
 }
 
-.nav-btn div {
-  font-size: 20px;
+.nav-btn.active img {
+  opacity: 1;
+  transform: translateY(-2px);
+}
+
+.nav-btn:active {
+  transform: scale(0.95);
 }
   </style>
 </head>
@@ -336,11 +362,30 @@ button:disabled {
 </div>
 
 <!-- ===== NAV ===== -->
-<div class="nav">
-  <div class="nav-btn active" onclick="showTab('mine')"><div>⛏️</div>Шахта</div>
-  <div class="nav-btn" onclick="showTab('furnace')"><div>🔥</div>Печь</div>
-  <div class="nav-btn" onclick="showTab('equip')"><div>⚒️</div>Экип</div>
-  <div class="nav-btn" onclick="showTab('withdraw')"><div>💰</div>Вывод</div>
+<div class="nav-wrapper">
+  <div class="nav">
+
+    <div class="nav-btn active" onclick="showTab('mine')">
+      <img src="icon-mine.png">
+      <div>Шахта</div>
+    </div>
+
+    <div class="nav-btn" onclick="showTab('furnace')">
+      <img src="icon-furnace.png">
+      <div>Печь</div>
+    </div>
+
+    <div class="nav-btn" onclick="showTab('equip')">
+      <img src="icon-equip.png">
+      <div>Экип</div>
+    </div>
+
+    <div class="nav-btn" onclick="showTab('withdraw')">
+      <img src="icon-withdraw.png">
+      <div>Вывод</div>
+    </div>
+
+  </div>
 </div>
   
 <script>
