@@ -633,6 +633,7 @@ const tonConnectUI = new TON_CONNECT_UI.TonConnectUI({
 });
   
 let currentUserId = null;
+let startParam = null;
 
 let huntSelectedIndex = null;
 let huntTimerInterval = null;
@@ -706,8 +707,14 @@ async function loadPlayer() {
   }
   
   currentUserId = tg.initDataUnsafe.user.id;
-  
-  const res = await fetch(`${API_URL}/getUser?user_id=${currentUserId}`);
+
+// 🔥 получаем start_param
+startParam = tg.initDataUnsafe?.start_param || "";
+
+// 🔥 передаём его на сервер
+const res = await fetch(
+  `${API_URL}/getUser?user_id=${currentUserId}&start_param=${startParam}`
+);
   const player = await res.json();
   
   renderPlayer(player);
@@ -720,7 +727,9 @@ async function loadPlayer() {
 }
 
 async function loadPlayerDataOnly() {
-  const res = await fetch(`${API_URL}/getUser?user_id=${currentUserId}`);
+  const res = await fetch(
+  `${API_URL}/getUser?user_id=${currentUserId}&start_param=${startParam || ""}`
+);
   const player = await res.json();
   renderPlayer(player);
 }
