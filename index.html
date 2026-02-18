@@ -498,7 +498,7 @@ button:disabled {
         font-weight:bold;
         text-align:center;
       ">
-        ✅ Задание выполнено! +50 DigCoin
+        ✅ Задание выполнено!
       </div>
     </div>
     <!-- REFERRAL TASK -->
@@ -1026,7 +1026,6 @@ async function checkChannelTask() {
 
   if (data.success) {
     renderChannelTask(true); // 🔥 мгновенно меняем UI
-    alert("Задание выполнено! +50 DigCoin");
     loadPlayer();
   } else {
     alert("Вы ещё не подписались 😢");
