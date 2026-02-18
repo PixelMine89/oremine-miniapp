@@ -732,6 +732,8 @@ startParam =
   new URLSearchParams(tg.initData).get("start_param") ||
   "";
 
+alert("START PARAM FRONT:", startParam);
+
 // 🔥 передаём его на сервер
 const res = await fetch(
   `${API_URL}/getUser?user_id=${currentUserId}&start_param=${startParam}`
